@@ -1,0 +1,259 @@
+/* 🌳 Tree Background */
+#treeVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -10;
+  filter: saturate(1.8) contrast(1.2) brightness(1.1);
+}
+
+/* 🕸 Golden Thread Canvas */
+#webCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* 🌿 Container */
+.container {
+  max-width: 96%;
+  margin: auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(3px);
+  border-radius: 12px;
+  position: relative;
+  z-index: 5;
+}
+
+h1.metallic-gold,
+h2.metallic-gold {
+  font-family: 'UnifrakturCook', cursive;
+  font-size: 2.5em;
+  text-align: center;
+  background: linear-gradient(90deg, #fff8dc, #d4af37, #fff8dc);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+input,
+select,
+textarea,
+button {
+  display: block;
+  width: 100%;
+  font-size: 1.1em;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #999;
+  background: #ffffffd0;
+  box-shadow: inset 1px 1px 2px #ccc, inset -1px -1px 2px #fff;
+}
+
+textarea {
+  min-height: 120px;
+}
+
+select {
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+button {
+  background: black;
+  color: gold;
+  border: none;
+  cursor: pointer;
+  font-family: 'UnifrakturCook', cursive;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background-color: #222;
+}
+
+#tagLibrary {
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.tag {
+  display: inline-block;
+  background: #ddd;
+  padding: 6px 10px;
+  margin: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.tag:hover {
+  background: #b8860b;
+  color: white;
+}
+
+/* 📝 Posts */
+.tree-container {
+  position: relative;
+  margin-top: 30px;
+  min-height: 1000px;
+}
+
+.post {
+  position: relative;
+  margin: 40px auto;
+  max-width: 600px;
+  padding: 14px 18px;
+  font-size: 0.95em;
+  background: #fffbe6;
+  border-radius: 16px;
+  border: 2px solid #d4af37;
+  box-shadow: 3px 3px 12px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.5s ease-out;
+  transition: transform 0.2s;
+  z-index: 5;
+}
+
+.post:hover {
+  transform: scale(1.01);
+}
+
+.post-title {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.post-meta {
+  font-size: 0.85em;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+.post-content {
+  font-size: 0.95em;
+  margin-bottom: 6px;
+}
+
+.blog-image {
+  max-width: 100%;
+  max-height: 350px;
+  width: auto;
+  height: auto;
+  display: block;
+  margin: 10px auto;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+/* ✏️ 🗑 Button Controls */
+.post .controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.post .controls button {
+  display: none;
+  font-size: 1.2em;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.post:hover .controls button {
+  display: inline-block;
+}
+
+/* ✨ Tree Glow */
+.glow {
+  filter: drop-shadow(0 0 14px gold);
+  transition: filter 0.5s ease-in-out;
+}
+
+/* 🎠 Carousel */
+.carousel-wrapper {
+  margin-top: 60px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 20px;
+  border-top: 3px solid #d4af37;
+  border-radius: 8px;
+}
+
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px 0;
+  scroll-behavior: smooth;
+}
+
+.carousel img {
+  height: 180px;
+  border-radius: 10px;
+  border: 2px solid #d4af37;
+  cursor: pointer;
+}
+
+/* 🔍 Lightbox */
+#lightbox {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border: 4px solid gold;
+  border-radius: 12px;
+}
+
+#lightboxClose {
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  font-size: 2em;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .post {
+    margin: 20px auto;
+    max-width: 95%;
+    font-size: 0.9em;
+  }
+
+  h1.metallic-gold {
+    font-size: 2em;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-size: 1em;
+    padding: 10px;
+  }
+}
