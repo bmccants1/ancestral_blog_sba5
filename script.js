@@ -6,9 +6,11 @@ let users = JSON.parse(localStorage.getItem("users")) || {
   monitor3: "phoenix123"
 };
 
+
 let currentUser = null;
 let role = "user";
 let editingPostId = null;
+
 
 if (localStorage.getItem("rememberedUser")) {
   currentUser = localStorage.getItem("rememberedUser");
@@ -16,11 +18,13 @@ if (localStorage.getItem("rememberedUser")) {
   activateSession();
 }
 
+
 function getRole(user) {
   if (["admin", "titan91"].includes(user)) return "admin";
   if (["monitor1", "monitor2", "monitor3"].includes(user)) return "monitor";
   return "user";
 }
+
 
 function activateSession() {
   document.getElementById("postForm").style.display = "flex";
@@ -28,6 +32,7 @@ function activateSession() {
   document.getElementById("logoutPanel").style.display = "block";
   document.getElementById("userDisplay").textContent = currentUser;
 }
+
 
 document.getElementById("loginBtn").onclick = () => {
   const u = document.getElementById("username").value.trim();
@@ -45,6 +50,7 @@ document.getElementById("loginBtn").onclick = () => {
   }
 };
 
+
 document.getElementById("registerBtn").onclick = () => {
   const u = document.getElementById("username").value.trim();
   const p = document.getElementById("password").value;
@@ -56,16 +62,20 @@ document.getElementById("registerBtn").onclick = () => {
   alert("Alias registered! Now log in.");
 };
 
+
 document.getElementById("logoutBtn").onclick = () => {
   localStorage.removeItem("rememberedUser");
   location.reload();
 };
 
+
 let posts = JSON.parse(localStorage.getItem("approvedPosts")) || [];
 let pendingPosts = JSON.parse(localStorage.getItem("pendingPosts")) || [];
 
+
 document.getElementById("postForm").addEventListener("submit", (e) => {
   e.preventDefault();
+
 
   const title = document.getElementById("title").value;
   const category = document.getElementById("category").value;
@@ -73,6 +83,7 @@ document.getElementById("postForm").addEventListener("submit", (e) => {
   const content = document.getElementById("content").value;
   const imageFile = document.getElementById("imageUpload").files[0];
   const galleryFlag = document.getElementById("galleryCheckbox").checked;
+
 
   if (editingPostId !== null) {
     const index = posts.findIndex(p => p.id === editingPostId);
@@ -82,6 +93,7 @@ document.getElementById("postForm").addEventListener("submit", (e) => {
       posts[index].tags = tags;
       posts[index].content = content;
       posts[index].galleryFlag = galleryFlag;
+
 
       if (imageFile) {
         const reader = new FileReader();
@@ -107,6 +119,7 @@ document.getElementById("postForm").addEventListener("submit", (e) => {
       galleryFlag
     };
 
+
     if (imageFile) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -119,12 +132,15 @@ document.getElementById("postForm").addEventListener("submit", (e) => {
     }
   }
 
+
   e.target.reset();
 });
+
 
 function finalizePost(post) {
   document.getElementById("treeVideo").classList.add("glow");
   setTimeout(() => document.getElementById("treeVideo").classList.remove("glow"), 800);
+
 
   if (role === "admin" || role === "monitor") {
     posts.push(post);
@@ -137,34 +153,54 @@ function finalizePost(post) {
   }
 }
 
+
 function finalizeEdit() {
   localStorage.setItem("approvedPosts", JSON.stringify(posts));
   editingPostId = null;
   renderPosts();
 }
 
+
 function renderPosts() {
   const container = document.getElementById("posts");
   container.innerHTML = "";
   const webNodes = [];
 
+
   let sorted = [...posts].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
 
   sorted.forEach((post) => {
     const div = document.createElement("div");
     div.className = "post";
 
+
     const canModify =
       currentUser === post.user ||
       (["admin", "monitor"].includes(role) && !["admin", "titan91"].includes(post.user));
 
-    const deleteBtn = canModify
-      ? `<button onclick="deletePost(${post.id})" title="Delete Post">🗑</button>`
-      : "";
 
-    const editBtn = canModify
-      ? `<button onclick="editPost(${post.id})" title="Edit Post">✏️</button>`
-      : "";
+    const controls = document.createElement("div");
+    controls.className = "controls";
+
+
+    if (canModify) {
+      const editBtn = document.createElement("button");
+      editBtn.title = "Edit Post";
+      editBtn.innerHTML = "✏️";
+      editBtn.onclick = () => editPost(post.id);
+
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.title = "Delete Post";
+      deleteBtn.innerHTML = "🗑";
+      deleteBtn.onclick = () => deletePost(post.id);
+
+
+      controls.appendChild(editBtn);
+      controls.appendChild(deleteBtn);
+    }
+
 
     div.innerHTML = `
       <div class="post-title">${post.title}</div>
@@ -172,10 +208,13 @@ function renderPosts() {
       <div class="post-meta">Category: ${post.category} | Tags: ${post.tags}</div>
       <div class="post-content">${post.content}</div>
       ${post.image ? `<img src="${post.image}" class="blog-image" />` : ""}
-      <div class="controls">${editBtn} ${deleteBtn}</div>
     `;
 
+
+    div.appendChild(controls);
     container.appendChild(div);
+
+
     webNodes.push({
       el: div,
       category: post.category,
@@ -183,26 +222,10 @@ function renderPosts() {
     });
   });
 
+
   setTimeout(() => drawConnections(webNodes), 200);
 }
 
-window.editPost = (id) => {
-  const post = posts.find((p) => p.id === id);
-  if (!post) return;
-  editingPostId = id;
-  document.getElementById("title").value = post.title;
-  document.getElementById("category").value = post.category;
-  document.getElementById("tags").value = post.tags;
-  document.getElementById("content").value = post.content;
-  document.getElementById("galleryCheckbox").checked = post.galleryFlag;
-  window.scrollTo({ top: 0, behavior: "smooth" });
-};
-
-window.deletePost = (id) => {
-  posts = posts.filter((p) => p.id !== id);
-  localStorage.setItem("approvedPosts", JSON.stringify(posts));
-  renderPosts();
-};
 
 function drawConnections(nodes) {
   const canvas = document.getElementById("webCanvas");
@@ -211,12 +234,14 @@ function drawConnections(nodes) {
   canvas.height = window.innerHeight;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+
   for (let i = 0; i < nodes.length; i++) {
     const aRect = nodes[i].el.getBoundingClientRect();
     const aCenter = {
       x: aRect.left + aRect.width / 2,
       y: aRect.top + aRect.height / 2 + window.scrollY
     };
+
 
     for (let j = i + 1; j < nodes.length; j++) {
       const bRect = nodes[j].el.getBoundingClientRect();
@@ -225,8 +250,10 @@ function drawConnections(nodes) {
         y: bRect.top + bRect.height / 2 + window.scrollY
       };
 
+
       const sameCat = nodes[i].category === nodes[j].category;
       const sharedTags = nodes[i].tags.some((t) => nodes[j].tags.includes(t));
+
 
       if (sameCat || sharedTags) {
         ctx.beginPath();
@@ -241,10 +268,31 @@ function drawConnections(nodes) {
   }
 }
 
-// Lightbox
+
+window.editPost = (id) => {
+  const post = posts.find((p) => p.id === id);
+  if (!post) return;
+  editingPostId = id;
+  document.getElementById("title").value = post.title;
+  document.getElementById("category").value = post.category;
+  document.getElementById("tags").value = post.tags;
+  document.getElementById("content").value = post.content;
+  document.getElementById("galleryCheckbox").checked = post.galleryFlag;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+
+window.deletePost = (id) => {
+  posts = posts.filter((p) => p.id !== id);
+  localStorage.setItem("approvedPosts", JSON.stringify(posts));
+  renderPosts();
+};
+
+
 document.getElementById("lightboxClose").onclick = () => {
   document.getElementById("lightbox").style.display = "none";
 };
+
 
 document.getElementById("lightbox").onclick = (e) => {
   if (e.target.id === "lightbox") {
@@ -252,14 +300,16 @@ document.getElementById("lightbox").onclick = (e) => {
   }
 };
 
+
 function loadCarouselImages() {
   const carousel = document.getElementById("carousel");
   const filenames = [
-    "image1.PNG", "image2.jpg", "Image3.PNG", "IMage4.PNG", "image5.jpg",
+    "image1.PNG", "image2.jpg", "image3.PNG", "image4.PNG", "image5.jpg",
     "image6.PNG", "image7.PNG", "image8.PNG", "image9.PNG", "image10.png",
     "image11.jpg", "image12.jpg", "image13.png", "image14.png", "image15.PNG",
     "image16.PNG", "image17.jpg", "image18.jpg", "image19.jpg", "image20.jpg", "image21.jpg"
   ];
+
 
   filenames.forEach((name) => {
     const img = document.createElement("img");
@@ -274,7 +324,7 @@ function loadCarouselImages() {
   });
 }
 
-// Admin Review
+
 document.getElementById("adminLoginBtn").onclick = () => {
   const pw = prompt("Enter admin password:");
   if (pw === "phoenix123" && role === "admin") {
@@ -285,12 +335,17 @@ document.getElementById("adminLoginBtn").onclick = () => {
   }
 };
 
+
 function renderPending() {
   const container = document.getElementById("pendingPosts");
   container.innerHTML = "";
+
+
   pendingPosts.forEach((post) => {
     const div = document.createElement("div");
     div.className = "post";
+
+
     div.innerHTML = `
       <div class="post-title">${post.title}</div>
       <div class="post-meta">From: ${post.user} | ${new Date(post.timestamp).toLocaleString()}</div>
@@ -298,12 +353,34 @@ function renderPending() {
       <div class="post-content">${post.content}</div>
       ${post.image ? `<img src="${post.image}" class="blog-image" />` : ""}
       ${post.galleryFlag ? `<div class="post-meta">🎨 Marked for Gallery</div>` : ""}
-      <button onclick="approvePost(${post.id})">Approve</button>
-      <button onclick="rejectPost(${post.id})">Reject</button>
     `;
+
+
+    const controls = document.createElement("div");
+    controls.className = "controls";
+
+
+    const approveBtn = document.createElement("button");
+    approveBtn.textContent = "✔️";
+    approveBtn.title = "Approve";
+    approveBtn.onclick = () => approvePost(post.id);
+
+
+    const rejectBtn = document.createElement("button");
+    rejectBtn.textContent = "❌";
+    rejectBtn.title = "Reject";
+    rejectBtn.onclick = () => rejectPost(post.id);
+
+
+    controls.appendChild(approveBtn);
+    controls.appendChild(rejectBtn);
+    div.appendChild(controls);
+
+
     container.appendChild(div);
   });
 }
+
 
 window.approvePost = (id) => {
   const post = pendingPosts.find((p) => p.id === id);
@@ -315,11 +392,13 @@ window.approvePost = (id) => {
   renderPending();
 };
 
+
 window.rejectPost = (id) => {
   pendingPosts = pendingPosts.filter((p) => p.id !== id);
   localStorage.setItem("pendingPosts", JSON.stringify(pendingPosts));
   renderPending();
 };
+
 
 // INIT
 renderPosts();

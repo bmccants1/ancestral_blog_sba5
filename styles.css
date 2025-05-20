@@ -68,13 +68,30 @@ select {
   overflow-y: auto;
 }
 
+/* 🌟 Category Dropdown */
+#filterCategory {
+  max-height: 200px;
+  overflow-y: auto;
+  display: block;
+  font-size: 1em;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+  background: #ffffffd0;
+}
+
+/* 📚 Tag Library */
 #tagLibrary {
   background: #f9f9f9;
   padding: 10px;
   border-radius: 6px;
   margin-bottom: 10px;
-  overflow-x: auto;
-  white-space: nowrap;
+  max-height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .tag {
@@ -92,20 +109,7 @@ select {
   color: white;
 }
 
-button {
-  background: black;
-  color: gold;
-  border: none;
-  cursor: pointer;
-  font-family: 'UnifrakturCook', cursive;
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-button:hover {
-  background-color: #222;
-}
-
-/* 🌳 Blog Posts */
+/* 📝 Posts */
 .tree-container {
   position: relative;
   margin-top: 30px;
@@ -178,13 +182,13 @@ button:hover {
   display: inline-block;
 }
 
-/* ✨ Tree Glow on Submit */
+/* ✨ Tree Glow */
 .glow {
   filter: drop-shadow(0 0 14px gold);
   transition: filter 0.5s ease-in-out;
 }
 
-/* 🎠 Carousel Styles */
+/* 🎠 Carousel */
 .carousel-wrapper {
   margin-top: 60px;
   background: rgba(255, 255, 255, 0.85);
@@ -208,7 +212,7 @@ button:hover {
   cursor: pointer;
 }
 
-/* 🔍 Lightbox View */
+/* 🔍 Lightbox */
 #lightbox {
   display: none;
   position: fixed;
@@ -238,7 +242,6 @@ button:hover {
   cursor: pointer;
 }
 
-/* 📱 Responsive */
 @media (max-width: 768px) {
   .post {
     margin: 20px auto;

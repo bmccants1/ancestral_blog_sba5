@@ -2,112 +2,76 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Voices of Our Ancestors</title>
   <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:700&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <video autoplay muted loop id="treeVideo">
+  <video autoplay muted loop playsinline id="treeVideo">
     <source src="images/tree.mp4" type="video/mp4" />
   </video>
+
   <canvas id="webCanvas"></canvas>
 
   <div class="container">
     <h1 class="metallic-gold">Voices of Our Ancestors</h1>
 
-    <!-- 🔐 Login Panel -->
     <div id="authPanel">
-      <input id="username" placeholder="Enter alias (no numbers)" />
-      <input type="password" id="password" placeholder="Enter password" />
-      <label><input type="checkbox" id="rememberMe" /> Remember me</label>
-      <button id="loginBtn">Login</button>
-      <button id="registerBtn">Register New Alias</button>
+      <input type="text" id="username" placeholder="Alias (No real names)" />
+      <input type="password" id="password" placeholder="Password" />
+      <label><input type="checkbox" id="rememberMe" /> Remember Me</label>
+      <button id="loginBtn">Log In</button>
+      <button id="registerBtn">Register</button>
     </div>
 
-    <!-- 👋 Logout -->
-    <div id="logoutPanel" style="display:none">
-      Logged in as <strong id="userDisplay"></strong>
-      <button id="logoutBtn">Logout</button>
+    <div id="logoutPanel" style="display: none;">
+      <p>Welcome, <span id="userDisplay"></span> — <button id="logoutBtn">Log Out</button></p>
     </div>
 
-    <!-- 📝 Post Form -->
-    <form id="postForm" style="display:none">
+    <div id="tagLibrary"></div>
+
+    <form id="postForm" style="display: none;">
       <input type="text" id="title" placeholder="Post Title" required />
-
-      <label for="category">Select a Category</label>
       <select id="category" required>
-        <option value="">-- Select Category --</option>
+        <option value="">Select Category</option>
         <option>Ancestors</option>
-        <option>Traditions</option>
-        <option>Resistance</option>
         <option>Healing</option>
-        <option>Family</option>
-        <option>Wisdom</option>
-        <option>Survival Stories</option>
         <option>Spiritual Practices</option>
-        <option>Language & Culture</option>
-        <option>Modern Identity</option>
+        <option>Wisdom</option>
         <option>Health and Wellness</option>
       </select>
-
-      <!-- 🏷 Tag Library -->
-      <div id="tagLibrary">
-        <span class="tag">Black wisdom</span>
-        <span class="tag">Grandmother’s teachings</span>
-        <span class="tag">Dreams</span>
-        <span class="tag">Food stories</span>
-        <span class="tag">Colonial impact</span>
-        <span class="tag">Sacred ceremony</span>
-        <span class="tag">Haircare</span>
-        <span class="tag">Hair Stories</span>
-        <span class="tag">Black Indigenous</span>
-        <span class="tag">Trail of Tears</span>
-        <span class="tag">Plant medicine</span>
-        <span class="tag">Community building</span>
-        <span class="tag">Motherhood</span>
-        <span class="tag">Surviving the system</span>
-        <span class="tag">Blackmagic</span>
-        <span class="tag">Hoodoo</span>
-        <span class="tag">Melanin</span>
-        <span class="tag">Vacation</span>
-        <span class="tag">Blackbiz</span>
-        <span class="tag">Beauty</span>
-        <span class="tag">Lifeskills</span>
-        <span class="tag">Manhood</span>
-        <span class="tag">Womanhood</span>
-        <span class="tag">Parenting</span>
-        <span class="tag">Homestead</span>
-        <span class="tag">Farming</span>
-        <span class="tag">Garden</span>
-      </div>
-
-      <input type="text" id="tags" placeholder="Comma-separated tags" required />
-      <textarea id="content" placeholder="Share your story..." required></textarea>
+      <input type="text" id="tags" placeholder="Tags (comma-separated)" />
+      <textarea id="content" placeholder="Your story, wisdom, or truth..." required></textarea>
       <input type="file" id="imageUpload" accept="image/*" />
-      <label><input type="checkbox" id="galleryCheckbox" /> Submit image to gallery</label>
-      <button type="submit">Post</button>
+      <label><input type="checkbox" id="galleryCheckbox" /> Consider this image for the Ancestral Gallery</label>
+      <button type="submit">Submit</button>
     </form>
 
-    <!-- 📌 Admin Review Button -->
-    <button id="adminLoginBtn">🔒 Review Dashboard (Admin Only)</button>
+    <div id="filterBar">
+      <select id="filterCategory"><option value="">Filter by Category</option></select>
+      <select id="sortPosts">
+        <option value="newest">Sort: Newest</option>
+        <option value="category">Sort by Category</option>
+      </select>
+      <input type="text" id="filterTags" placeholder="Search tags..." />
+    </div>
 
-    <!-- 🗂 Review Dashboard -->
-    <div id="reviewDashboard" style="display:none">
-      <h2>Pending Posts for Review</h2>
+    <div id="posts" class="tree-container"></div>
+
+    <button id="adminLoginBtn">Review Submissions</button>
+
+    <div id="reviewDashboard" style="display:none;">
+      <h2>Pending Submissions</h2>
       <div id="pendingPosts"></div>
     </div>
 
-    <!-- 🌱 Blog Posts -->
-    <div id="posts" class="tree-container"></div>
-
-    <!-- 📸 Image Gallery Carousel -->
     <div class="carousel-wrapper">
-      <h2 class="metallic-gold">Ancestral Gallery</h2>
+      <h2 class="metallic-gold">Ancestral Image Gallery</h2>
       <div class="carousel" id="carousel"></div>
     </div>
   </div>
 
-  <!-- 🔍 Lightbox -->
   <div id="lightbox">
     <span id="lightboxClose">&times;</span>
     <img id="lightboxImage" src="" alt="Expanded View" />
