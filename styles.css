@@ -68,19 +68,6 @@ select {
   overflow-y: auto;
 }
 
-button {
-  background: black;
-  color: gold;
-  border: none;
-  cursor: pointer;
-  font-family: 'UnifrakturCook', cursive;
-  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-button:hover {
-  background-color: #222;
-}
-
 #tagLibrary {
   background: #f9f9f9;
   padding: 10px;
@@ -105,7 +92,20 @@ button:hover {
   color: white;
 }
 
-/* 📝 Posts */
+button {
+  background: black;
+  color: gold;
+  border: none;
+  cursor: pointer;
+  font-family: 'UnifrakturCook', cursive;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background-color: #222;
+}
+
+/* 🌳 Blog Posts */
 .tree-container {
   position: relative;
   margin-top: 30px;
@@ -178,13 +178,13 @@ button:hover {
   display: inline-block;
 }
 
-/* ✨ Tree Glow */
+/* ✨ Tree Glow on Submit */
 .glow {
   filter: drop-shadow(0 0 14px gold);
   transition: filter 0.5s ease-in-out;
 }
 
-/* 🎠 Carousel */
+/* 🎠 Carousel Styles */
 .carousel-wrapper {
   margin-top: 60px;
   background: rgba(255, 255, 255, 0.85);
@@ -208,7 +208,7 @@ button:hover {
   cursor: pointer;
 }
 
-/* 🔍 Lightbox */
+/* 🔍 Lightbox View */
 #lightbox {
   display: none;
   position: fixed;
@@ -238,6 +238,7 @@ button:hover {
   cursor: pointer;
 }
 
+/* 📱 Responsive */
 @media (max-width: 768px) {
   .post {
     margin: 20px auto;
